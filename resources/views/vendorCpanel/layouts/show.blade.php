@@ -66,7 +66,7 @@
                                         <div class="row text-center">
                                             <div class="">Mobile</div>
                                         </div>
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             @if ( count($items) >0 && count($items['mobile']) > 0)
                                                 @foreach ($items['mobile'] as $item)
                                                     <div class="col-sm-12">
@@ -83,7 +83,7 @@
                                                     </div>
                                                 @endforeach
                                             @endif
-                                        </div>
+                                        </div> --}}
                                         <div class="row">
                                             <div class="col-sm-12 text-center">
                                                 <a href="{{ route('layout.item.add.get', ['permalink' => $layout->layout_permalink]) }}">+Add new item</a>

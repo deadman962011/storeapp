@@ -20,7 +20,7 @@ class productBrand extends Model
 
     public function getProductsCountAttribute(){
 
-        return product::where('product_brand',$this->id)->count();
+        return storeProduct::where('product_brand',$this->id)->count();
 
     }
     

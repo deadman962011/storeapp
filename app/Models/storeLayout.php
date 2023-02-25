@@ -26,7 +26,7 @@ class storeLayout extends Model
         }
         // dd($breakpoint);
         
-        return $this->hasMany(layoutItem::class, 'layout_id', 'id')->whereIn('item_breakpoint',$breakpoint);
+        return $this->hasMany(layoutItem::class, 'layout_id', 'id')->whereIn('item_breakpoint',$breakpoint)->orderBy('item_sort', 'ASC');
     }
 
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\productCategory;
 use App\Models\productBrand;
 use App\Models\productProperty;
-use App\Models\product;
+use App\Models\storeProduct;
 use DataTables;
 
 use App\Http\Requests\cp\vendor\product\saveProductRequest;
@@ -57,7 +57,7 @@ class productController extends Controller
         //save product 
         //product_permalink	product_type	product_status	parent_id	
         //product_category	product_brand	product_vendor	created_at	updated_at
-        $saveproduct=new product();
+        $saveproduct=new storeProduct();
         $saveproduct->product_permalink=$request->productPermalinkI;
         $saveproduct->product_status=1;
         $saveproduct->product_type=$request->productTypeI;
@@ -147,7 +147,7 @@ class productController extends Controller
                     $var['product_vendor']=$vendor->id;
                     array_push($variations,$var);
                 }
-                $saveVariations=product::insert($variations);
+                $saveVariations=storeProduct::insert($variations);
 
                 return  redirect()->route('product.index')->with('success', 'Product Successfully Saved');
             }
@@ -176,12 +176,12 @@ class productController extends Controller
 
     public function datatables($type, $status)
     {
-        $products=product::where('product_status',$status);
+        $products=storeProduct::where('product_status',$status);
         if($type==='all'){
-            $products=product::parent();
+            $products=storeProduct::parent();
         }
         else{
-            $products=product::where('product_type',$type);
+            $products=storeProduct::where('product_type',$type);
         }
         $products->get();
 

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('store_products', function (Blueprint $table) {
             $table->id();
             $table->string('product_permalink')->unique();
             $table->string('product_type');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->BigInteger("product_category")->index()->unsigned();
             $table->BigInteger("product_brand")->index()->unsigned();
             $table->BigInteger("product_vendor")->index()->unsigned();
-            $table->foreign('parent_id')->references('id')->on('products')->onDelete('cascade')->nullable();
+            $table->foreign('parent_id')->references('id')->on('store_products')->onDelete('cascade')->nullable();
             $table->foreign('product_category')->references('id')->on('product_categories')->onDelete('cascade')->nullable();
             $table->foreign('product_brand')->references('id')->on('product_brands')->onDelete('cascade')->nullable();
             $table->foreign('product_vendor')->references('id')->on('store_vendors')->onDelete('cascade')->nullable();
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('store_products');
     }
 };

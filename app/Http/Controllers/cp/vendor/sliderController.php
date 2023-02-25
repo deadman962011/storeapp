@@ -38,6 +38,7 @@ class sliderController extends Controller
         $saveSlider=new storeSlider();
         $saveSlider->slider_name=$request->sliderNameI;
         $saveSlider->slider_desc=$request->sliderDescI;
+        $saveSlider->slider_status=1;
         $saveSlider->save();
         return  redirect()->route('slider.index')->with('success', 'Slider Successfully Saved');
 

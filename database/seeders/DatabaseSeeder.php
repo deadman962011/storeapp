@@ -39,5 +39,12 @@ class DatabaseSeeder extends Seeder
             'config_desc'=>'sar currency'
         ]);
 
+        //save main page 
+        \App\Models\storeLayout::create([ 
+            'layout_name'=>'main page',
+            'layout_permalink'=>'main-page',
+            'layout_desc'=>'main page layout'
+        ]);
+
     }
 }

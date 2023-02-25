@@ -72,11 +72,11 @@
                     linkInput.hide()
 
                     if($(this).val()==='category'){
-                        var url="{{route('api.category.all')}}";
+                        var url="{{route('api.category.all',['lang'=>'en'])}}";
                         var stringName='category_name';
                     }
                     else if($(this).val()==='brand'){
-                        var url="{{route('api.brand.all')}}";
+                        var url="{{route('api.brand.all',['lang'=>'en'])}}";
                         var stringName='brand_name';
                     }
                     else if($(this).val()==='tag'){

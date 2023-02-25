@@ -26,7 +26,7 @@ class saveProductRequest extends FormRequest
         $rules['productTypeI']='required';
         $rules['productNameI']='required|min:3|unique:translation_strings,translation_value,'. $this->id .',id,translation_key,product_name';
         $rules['productShortDescI']='required|min:5|unique:translation_strings,translation_value,'. $this->id .',id,translation_key,product_short_desc';
-        $rules['productPermalinkI']='required||min:3|unique:products,product_permalink,'.$this->id;
+        $rules['productPermalinkI']='required||min:3|unique:store_products,product_permalink,'.$this->id;
         $rules['productCatI']='required|exists:product_categories,id';
         $rules['productBrandI']='required|exists:product_brands,id';
         if($this->productTypeI==='simple'){

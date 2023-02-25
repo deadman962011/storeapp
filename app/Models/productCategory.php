@@ -34,7 +34,7 @@ class productCategory extends Model
 
     public function getProductsCountAttribute(){
 
-        return product::where('product_category',$this->id)->count();
+        return storeProduct::where('product_category',$this->id)->count();
 
     }
 

@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\ProductTrait;
 
-class product extends Model
+class storeProduct extends Model
 {
     use HasFactory;
     use ProductTrait;
 
     public  $lang='en';
-    public $curr='aed';
+    public $curr='sar';
     protected $appends=['strings','properties','price','sku'];
     protected $with=['category','brand','vendor','metas'];
 
@@ -117,7 +117,8 @@ class product extends Model
             ->whereIn('product_id',self:: where('product_status',1)
                                     ->where('product_type','variation')
                                     ->where('parent_id',$this->id)
-                                    ->pluck('id'));
+                                    ->pluck('id')
+            );
             return $currency->config_value*$priceArr->max('meta_value').' - '.$currency->config_value*$priceArr->min('meta_value');
 
         }

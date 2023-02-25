@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_metas', function (Blueprint $table) {
+        Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('meta_key');
-            $table->string('meta_value');
             $table->BigInteger("product_id")->index()->unsigned();
+            $table->BigInteger("cart_id")->index()->unsigned();
+            $table->integer('quantity')->default(1);
             $table->foreign('product_id')->references('id')->on('store_products')->onDelete('cascade')->nullable();
+            $table->foreign('cart_id')->references('id')->on('store_carts')->onDelete('cascade')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_metas');
+        Schema::dropIfExists('cart_items');
     }
 };

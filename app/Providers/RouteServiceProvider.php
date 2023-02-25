@@ -29,22 +29,35 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api/{lang}/{breakpoint}')
+            Route::prefix('api')
                 ->namespace($this->namespace)
                 ->group(function(){
+            Route::prefix('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+                
+                    Route::prefix('cart')
+                        ->namespace($this->namespace)
+                        ->group(base_path('routes/api/cartRoutes.php'));
+
                     // base_path('routes/api.php')
-                    Route::prefix('category')
-                        ->namespace($this->namespace)
-                        ->group(base_path('routes/api/categoryRoutes.php'));
-                    Route::prefix('brand')
-                        ->namespace($this->namespace)
-                        ->group(base_path('routes/api/brandRoutes.php'));
-                    Route::prefix('user')
-                        ->namespace($this->namespace)
-                        ->group(base_path('routes/api/userRoutes.php'));
-                    Route::prefix('layout')
-                        ->namespace($this->namespace)
-                        ->group(base_path('routes/api/layoutRoutes.php'));
+                    Route::prefix('{lang}')
+                    ->namespace($this->namespace)
+                    ->group(function(){
+                        Route::prefix('category')
+                            ->namespace($this->namespace)
+                            ->group(base_path('routes/api/categoryRoutes.php'));
+                        Route::prefix('brand')
+                            ->namespace($this->namespace)
+                            ->group(base_path('routes/api/brandRoutes.php'));
+                        Route::prefix('user')
+                            ->namespace($this->namespace)
+                            ->group(base_path('routes/api/userRoutes.php'));
+                        Route::prefix('layout/{breakpoint}/')
+                            ->namespace($this->namespace)
+                            ->group(base_path('routes/api/layoutRoutes.php'));
+                    });
+
                 });
 
 
