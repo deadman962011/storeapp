@@ -8,9 +8,11 @@ use App\Models\productCategory;
 use App\Models\productBrand;
 use App\Models\productProperty;
 use App\Models\storeProduct;
+use App\Models\storeConfig;
 use DataTables;
 
 use App\Http\Requests\cp\vendor\product\saveProductRequest;
+use App\Http\Requests\cp\vendor\product\updateProductRequest;
 
 use Auth;
 use App\Traits\ProductTrait;
@@ -76,6 +78,10 @@ class productController extends Controller
                 'key'=>'product_short_desc',
                 'value'=>$request->productShortDescI,
             ],
+            [
+                'key'=>'product_desc',
+                'value'=>''
+            ]
         ];
 
         //save translations
@@ -176,6 +182,11 @@ class productController extends Controller
 
     public function datatables($type, $status)
     {
+
+
+        $vendor=Auth::guard('storeVendor')->user();
+
+
         $products=storeProduct::where('product_status',$status);
         if($type==='all'){
             $products=storeProduct::parent();
@@ -183,12 +194,17 @@ class productController extends Controller
         else{
             $products=storeProduct::where('product_type',$type);
         }
-        $products->get();
+        $products->where('product_vendor',$vendor->id)->get();
 
         // return $status;
         return DataTables::of($products)
         ->addColumn('languages',function($row){
-            return 'en   ar ';
+
+            $langLinks='';
+            $configs=storeConfig::where('config_type','language')->get();
+            foreach ($configs as $language) {   $langLinks=$langLinks.'<a href="'.route('product.edit.get',['productId'=>$row->id,'lang'=>$language->config_key]).'">'.$language->config_key.'</a> ' ;};
+            $languagesCol='<td>'. $langLinks.'</td>';
+            return $languagesCol;
         })
         ->addColumn('action', function($row){
             $actionBtn='<div class="dropdown">
@@ -202,9 +218,92 @@ class productController extends Controller
                         </div>';
             return $actionBtn;
         })
-        ->rawColumns(['action'])
+        ->rawColumns(['action','languages'])
         ->make(true);
     }
+    
+    public function edit($productId,$lang)
+    {
+
+        $getProduct=storeProduct::where('id',$productId)->first();
+        $getProduct->lang=$lang;
+        $getProduct->append('strings');
+        // return response()->json($getProduct, 200);
+        if(!$getProduct){
+            return  redirect()->route('product.index')->with('danger', 'Unable to find product');
+        }
+        else{
+            $categories=productCategory::where('category_status',1)->orderByRaw("FIELD(category_type , 'main', 'sub', 'child') ASC")->get();
+            $brands=productBrand::where('brand_status',1)->get();
+            $properties=productProperty::where('property_type','parent')->get();
+            if(count($getProduct->strings) > 0){
+                $flash['productNameI']=$getProduct->strings['product_name'];
+                $flash['productShortDescI']=$getProduct->strings['product_short_desc'];
+                // $flash['productDescI']=$getProduct->strings['product_desc'];
+            }
+            $flash['language']=$lang;
+            $flash['itemId']=$getProduct->id;
+            $flash['productPermalinkI']=$getProduct->product_permalink;
+            $productType=$getProduct->product_type;
+            $flash['productTypeI']=$productType;
+            $flash['productSkuI']=$getProduct->sku;
+            $flash['productQtyI']=$getProduct->quantity;
+            $flash['productInStockI']=$getProduct->inStock;
+            $flash['productSoldindividuallyI']=$getProduct->soldindividually;
+            $flash['productPriceI']=$getProduct->price;
+            $flash['productCatI']=$getProduct->category->id;
+            $flash['productBrandI']=$getProduct->brand->id;
+            $flash['productShippingWeightI']=$getProduct->shpinigWeight;
+            $flash['productShippingLengthI']=$getProduct->shpinigLength;
+            $flash['productShippingWidthI']=$getProduct->shipingWidth;
+            $flash['productShippingHeightI']=$getProduct->shipingHeight;
+            if($getProduct->hasSale){
+                $flash['productSalePriceI']=$getProduct->product_sale_price;
+            }
+            if($productType==='variable'){
+                $flash['productPropsI']=$getProduct->properties->pluck('id');
+            }
+            
+            session()->flashInput($flash);
+            return view('vendorCpanel.products.update',compact(['categories','brands','properties']));
+        }
+
+    }
+    
+    
+    public function update($productId,$lang,updateProductRequest $request)
+    {
+
+        //get product
+        $getProduct=storeProduct::where('id',$productId)->first();
+        if(!$getProduct){
+            return  redirect()->route('product.index')->with('danger', 'Unable to find product');
+        }
+        else{
+            
+            //upadte product
+            if($request->productNameI){
+                $this->setTranslate('product_name',$request->productNameI,'product',$lang,$getProduct->id);
+            }
+            if($request->productShortDescI){
+                $this->setTranslate('product_short_desc',$request->productShortDescI,'product',$lang,$getProduct->id);
+            }
+            if($request->productDescI){
+                $this->setTranslate('product_desc',$request->productDescI,'product',$lang,$getProduct->id);
+            }
+
+            //update product
+            $getProduct->update([
+                'product_permalink'=>$request->productPermalinkI,
+                'product_category'=>$request->productCatI,
+                'product_brand'=>$request->productBrandI,
+            ]);
+
+            return redirect()->route('product.index')->with('success', 'Product Successfully Updated');
+
+        }
+
+
+
+    }
 }
-
-

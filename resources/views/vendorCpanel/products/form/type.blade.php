@@ -15,19 +15,15 @@
                     <label>Product type</label>
                     <div class="radio-group d-flex">
                         <div class="form-check mx-2">
-                            <input class="form-check-input" id="product_type" type="radio" name="productTypeI" value="simple" 
-                                @if (old('productTypeI')==='simple')
-                                    checked
-                                @endif
-                            >
+                            <input class="form-check-input" id="product_type" type="radio" name="productTypeI"
+                                value="simple" @if (old('productTypeI') === 'simple') checked @endif
+                                @if ($update) disabled @endif>
                             <label class="form-check-label">simple</label>
                         </div>
                         <div class="form-check mx-2">
-                            <input class="form-check-input" id="product_type" type="radio" name="productTypeI" value="variable"
-                                @if (old('productTypeI')==='variable')
-                                    checked
-                                @endif
-                            >
+                            <input class="form-check-input" id="product_type" type="radio" name="productTypeI"
+                                value="variable" @if (old('productTypeI') === 'variable') checked @endif
+                                @if ($update) disabled @endif>
                             <label class="form-check-label">variable</label>
                         </div>
                     </div>

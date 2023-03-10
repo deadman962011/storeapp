@@ -12,6 +12,8 @@ class productCategory extends Model
 {
     use HasFactory;
 
+    protected $fillable=['category_permalink'];
+
     public function scopeActive($query)
     {
         return $query->where('category_status',1);
@@ -43,7 +45,7 @@ class productCategory extends Model
     public function getStringsAttribute()
     {
         $lang=app('request')->route('lang');
-        if($lang){
+        if(app('request')->routeIs('api.*') && $lang){
             $language=$lang;
         }
         else{

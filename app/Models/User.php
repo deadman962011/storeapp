@@ -71,24 +71,6 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    /**
-     * Get all of the words for the Word
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function words(): HasMany
-    {
-        return $this->hasMany(Word::class, 'publisher', 'id')->limit(12);
-    }
 
-    /**
-     * Get all of the favorite for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function favorites(): HasMany
-    {
-        return $this->hasMany(Favorite::class, 'userId', 'id')->limit(12);
-    }
 
 }

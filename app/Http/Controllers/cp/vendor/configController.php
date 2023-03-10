@@ -35,7 +35,7 @@ class configController extends Controller
         $saveConfig->config_sub_value=$request->configSubValueI;
         $saveConfig->config_desc=$request->configDescI;
         $saveConfig->save();
-        return  redirect()->route('config.index')->with('success', 'Config Successfully Saved');
+        return  redirect()->route('config.datatables',['type'=>'language'])->with('success', 'Config Successfully Saved');
 
     }
 

@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $configs=\App\Models\storeConfig::all()->groupBy('config_type');
+        view()->share('configs',$configs);
     }
 }

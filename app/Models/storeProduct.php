@@ -14,8 +14,24 @@ class storeProduct extends Model
 
     public  $lang='en';
     public $curr='sar';
-    protected $appends=['strings','properties','price','sku'];
-    protected $with=['category','brand','vendor','metas'];
+    protected $appends=[
+        'strings',
+        'properties',
+        'price',
+        'sku',
+        'vendor',
+        'quantity',
+        'hasSale',
+        'inStock',
+        'soldindividually',
+        'shpinigWeight',
+        'shpinigLength',
+        'shipingWidth',
+        'shipingHeight',
+    ];
+    protected $with=['category','brand','metas'];
+
+    protected $fillable =['product_permalink','product_category','product_brand'];
 
     public function scopeActive($query)
     {
@@ -44,11 +60,6 @@ class storeProduct extends Model
         return $this->hasOne(productCategory::class, 'id', 'product_category');
     }
 
-    public function vendor()
-    {
-        return $this->hasOne(storeVendor::class,'id', 'product_vendor');
-    }
-
 
     public function variations()
     {
@@ -63,10 +74,91 @@ class storeProduct extends Model
         return $this->hasMany(productMeta::class, 'product_id', 'id');
     }
 
+    public function getVendorAttribute()
+    {
+        return storeVendor::find($this->product_vendor,['username','email'])->makeHidden('balance');
+        // return $this->where(storeVendor::class,'id', 'product_vendor');
+    }
+
+    public function getQuantityAttribute()
+    {
+        $meta=$this->getMeta('product_qty',$this->id)->first();
+        if($meta){
+            return $meta->meta_value;
+        }
+    }
+
+    public function getHasSaleAttribute()
+    {
+        $meta=$this->getMeta('product_sale_price',$this->id)->first();
+        if($meta){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    
+    public function getInStockAttribute()
+    {
+        $meta=$this->getMeta('product_stock_status',$this->id)->first();
+        if($meta){
+            return $meta->meta_value;
+        }
+    }
+
+    public function getSoldindividuallyAttribute()
+    {
+        $meta=$this->getMeta('product_sold_individually',$this->id)->first();
+        if($meta){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    public function getShpinigWeightAttribute()
+    {
+        $meta=$this->getMeta('product_shipping_weight',$this->id)->first();
+        // dd($this->id);
+        if($meta){
+            return $meta->meta_value;
+        }
+    }
+
+
+    public function getShpinigLengthAttribute()
+    {
+        $meta=$this->getMeta('product_shipping_length',$this->id)->first();
+        if($meta){
+            return $meta->meta_value;
+        }
+    }
+
+    public function getShipingWidthAttribute()
+    {
+        $meta=$this->getMeta('product_shipping_width',$this->id)->first();
+        if($meta){
+            return $meta->meta_value;
+        }
+    }
+
+    public function getShipingHeightAttribute()
+    {
+        $meta=$this->getMeta('product_shipping_height',$this->id)->first();
+        if($meta){
+            return $meta->meta_value;
+        }
+    }
+
     public function getStringsAttribute()
     {
         $lang=app('request')->route('lang');
-        if($lang){
+        if(app('request')->routeIs('api.*') && $lang){
             $language=$lang;
         }
         else{

@@ -9,6 +9,7 @@
 @php
     $breadcrumb = ['Dashboard', 'Configs', 'Add New config'];
     $page = $breadcrumb[count($breadcrumb)-1];
+    $update=false;
 @endphp
 @section('title')
 <title> {{$page}} </title>

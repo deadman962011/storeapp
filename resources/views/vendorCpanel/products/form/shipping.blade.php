@@ -25,7 +25,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Product shipping weight</label>
-                    <input type="text" name="productShippingWeightI" class="form-control">
+                    <input type="text" value="{{old('productShippingWeightI')}}" name="productShippingWeightI" class="form-control">
                 </div>
                 <!-- /.form-group -->
             </div>
@@ -34,21 +34,21 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Product shipping length</label>
-                    <input type="text" name="productShippingLengthI" class="form-control">
+                    <input type="text" name="productShippingLengthI" value="{{old('productShippingLengthI')}}" class="form-control">
                 </div>
                 <!-- /.form-group -->
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Product shipping width</label>
-                    <input type="text" name="productShippingWidthI" class="form-control">
+                    <input type="text" name="productShippingWidthI" value="{{old('productShippingWidthI')}}" class="form-control">
                 </div>
                 <!-- /.form-group -->
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Product shipping height</label>
-                    <input type="text" name="productShippingHeightI" class="form-control">
+                    <input type="text" name="productShippingHeightI" value="{{old('productShippingHeightI')}}" class="form-control">
                 </div>
                 <!-- /.form-group -->
             </div>

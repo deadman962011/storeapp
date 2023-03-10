@@ -28,7 +28,7 @@ class productProperty extends Model
     public function getStringsAttribute()
     {
         $lang=app('request')->route('lang');
-        if($lang){
+        if(app('request')->routeIs('api.*') && $lang){
             $language=$lang;
         }
         else{

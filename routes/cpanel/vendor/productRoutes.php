@@ -15,4 +15,10 @@ Route::get('/{status}/{type}',[productController::class,'byCondition'])->name('p
 
 Route::get('/datatabels/{type}/{status}',[productController::class,'datatables'])->name('product.datatables');
 
+Route::get('/{productId}/{lang}/edit',[productController::class,'edit'])->name('product.edit.get');
+
+Route::post('/{productId}/{lang}/edit',[productController::class,'update'])->name('product.edit.post');
+
+
+
 ?>

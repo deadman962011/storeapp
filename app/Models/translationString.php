@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class translationString extends Model
 {
     use HasFactory;
+
+    protected $fillable=['translation_value'];
+
 }

@@ -4,15 +4,17 @@
     <div class="hold-transition sidebar-mini">
         <div class="wrapper">
             <div class="content-wrapper">
-
+                
                 @php
                     $page='Dashboard'; 
                     $breadcrumb = ['Dashboard'];
+                    $vendor=Auth::guard('storeVendor')->user();
                 @endphp
                 @include('widgets.pageHeader')
 
                 <!-- Main content -->
                 <div class="content">
+                    {{$vendor->balance['ableToWithdraw']}}
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-6">

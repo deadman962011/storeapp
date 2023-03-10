@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Brand name</label>
-                    <input type="text" name="brandNameI"  class="form-control @error('brandNameI') is-invalid @enderror">
+                    <input type="text" name="brandNameI" value="{{old('brandNameI')}}"  class="form-control @error('brandNameI') is-invalid @enderror">
                     @error('brandNameI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
@@ -23,8 +23,8 @@
             <!-- /.col -->
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Category permalink</label>
-                    <input type="text" name="brandPermalinkI"  class="form-control @error('brandPermalinkI') is-invalid @enderror">
+                    <label>Brand permalink</label>
+                    <input type="text" name="brandPermalinkI" value="{{old('brandPermalinkI')}}"  class="form-control @error('brandPermalinkI') is-invalid @enderror">
                     @error('brandPermalinkI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
@@ -38,7 +38,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Brand description</label>
-                    <textarea name="brandDescI" id="" cols="30" rows="6" class="form-control @error('brandDescI') is-invalid @enderror"></textarea>
+                    <textarea name="brandDescI" id="" cols="30" rows="6" class="form-control @error('brandDescI') is-invalid @enderror">{{old('brandDescI')}}</textarea>
                     @error('brandDescI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror

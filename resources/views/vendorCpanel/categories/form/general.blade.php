@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Category name</label>
-                    <input type="text" name="categoryNameI"  class="form-control @error('categoryNameI') is-invalid @enderror">
+                    <input type="text" name="categoryNameI" value="{{old('categoryNameI')}}"  class="form-control @error('categoryNameI') is-invalid @enderror">
                     @error('categoryNameI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
@@ -23,7 +23,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Category permalink</label>
-                    <input type="text" name="categoryPermalinkI"  class="form-control @error('categoryPermalinkI') is-invalid @enderror">
+                    <input type="text" name="categoryPermalinkI" value="{{old('categoryPermalinkI')}}"   class="form-control @error('categoryPermalinkI') is-invalid @enderror">
                     @error('categoryPermalinkI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
@@ -38,7 +38,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Category description</label>
-                    <textarea name="categoryDescI" id="" cols="30" rows="6" class="form-control @error('categoryDescI') is-invalid @enderror"></textarea>
+                    <textarea name="categoryDescI" id="" cols="30" rows="6" class="form-control @error('categoryDescI') is-invalid @enderror">{{old('categoryDescI')}}</textarea>
                     @error('categoryDescI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror

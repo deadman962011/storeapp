@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="form-group @error('productPropsI') has-error @enderror">
                     <label>Properties</label>
-                    <select class="select2bs4 form-control  @error('productPropsI') is-invalid @enderror" name="productPropsI[]" multiple="multiple">
+                    <select id="product_props_select2" class="select2bs4 form-control  @error('productPropsI') is-invalid @enderror" name="productPropsI[]" multiple="multiple" @if ($update) disabled @endif >
                         @foreach ($properties as $property)
                             <option value="{{$property->id}}">{{$property->strings['property_name']}}</option>
                         @endforeach

@@ -54,9 +54,9 @@
                 <div class="form-group">
                     <label>Product stock status</label>
                     <select name="productInStockI" class="form-select @error('productInStockI') is-invalid @enderror">
-                        <option value="1">in stock</option>
-                        <option value="0">out of stock</option>
-                        <option value="2">pre-order</option>
+                        <option value="1"  @if(old('productInStockI') ==='1') selected @endif >in stock</option>
+                        <option value="0" @if(old('productInStockI') ==='0') selected @endif>out of stock</option>
+                        <option value="2" @if(old('productInStockI') ==='2') selected @endif>pre-order</option>
                     </select>
                     @error('productInStockI')
                         <span class="text-danger">{{$message}}</span>
@@ -69,8 +69,8 @@
         <!-- /.row -->
         <div class="row">
             <div class="col-md-6">
-                <div class="form-check">
-                    <input type="checkbox" name="productSoldindividuallyI" id="soldindividuallyI" class="form-check-input">
+                <div class="form-check">                    
+                    <input type="checkbox" name="productSoldindividuallyI" id="soldindividuallyI" class="form-check-input" @if(old('productSoldindividuallyI')) checked @endif>
                     <label for="#soldindividuallyI">Product sold individually</label>
                 </div>
             </div>

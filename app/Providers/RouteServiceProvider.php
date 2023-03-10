@@ -39,7 +39,14 @@ class RouteServiceProvider extends ServiceProvider
                     Route::prefix('cart')
                         ->namespace($this->namespace)
                         ->group(base_path('routes/api/cartRoutes.php'));
+                    
+                    Route::middleware('auth:api')->prefix('order')
+                        ->namespace($this->namespace)
+                        ->group(base_path('routes/api/orderRoutes.php'));
 
+                    Route::prefix('user')
+                        ->namespace($this->namespace)
+                        ->group(base_path('routes/api/userRoutes.php'));
                     // base_path('routes/api.php')
                     Route::prefix('{lang}')
                     ->namespace($this->namespace)
@@ -50,9 +57,6 @@ class RouteServiceProvider extends ServiceProvider
                         Route::prefix('brand')
                             ->namespace($this->namespace)
                             ->group(base_path('routes/api/brandRoutes.php'));
-                        Route::prefix('user')
-                            ->namespace($this->namespace)
-                            ->group(base_path('routes/api/userRoutes.php'));
                         Route::prefix('layout/{breakpoint}/')
                             ->namespace($this->namespace)
                             ->group(base_path('routes/api/layoutRoutes.php'));

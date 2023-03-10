@@ -8,7 +8,18 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+use App\Http\Requests\api\user\mobile\checkMobileRequest;
+use App\Http\Requests\api\user\mobile\loginMobileRequest;
+use App\Http\Requests\api\user\email\checkEmailRequest;
+use App\Http\Requests\api\user\email\loginEmailRequest;
+use App\Http\Requests\api\user\mobile\registerMobileRequest;
+
+
+
 use App\Models\User;
+use App\Models\storeUser;
+use App\Models\storeOrder;
+
 use JWTAuth;
 use Auth;
 
@@ -18,15 +29,15 @@ class userController extends Controller
 
     public function getUser(Request $request)
     {
-        $user=Auth::guard('api')->user();
-
-        $getUser=User::find($user['id']);
-        //->load(['favorites','favorites.word.publisher']);
-
+        $u=Auth::guard('api')->user();
+        $orders=storeOrder::where('user_id',$u->id)->get();
         return response()->json([
             'success'=>true,
             'message'=>'User Successfully Loaded',
-            'payload'=>$getUser
+            'payload'=>[
+                'user'=>$u,
+                'orders'=>$orders
+            ]
         ]);
     }
 
@@ -47,7 +58,7 @@ class userController extends Controller
                 'success'=>false,
                 'message'=>'Validation Error',
                 'payload'=>$validate->errors()
-            ],400);
+            ],200);
         }
         
         $updateUser=User::find($user['id']);
@@ -75,9 +86,139 @@ class userController extends Controller
                 'success'=>false,
                 'message'=>'Unable To Update User',
                 'payload'=>null
-            ],400);
+            ],200);
         }
     }
+
+
+    public function register(registerMobileRequest $request)
+    {
+        
+        $saveUser=new storeUser();
+        $saveUser->name=$request->nameI;
+        $saveUser->email=$request->emailI;
+        $saveUser->phone=$request->phoneI;
+        $saveUser->password=bcrypt($request->passwordI);
+        if($saveUser->save()){
+
+            //generate auth token
+            $token=Auth::guard('api')->login($saveUser);
+
+            return response()->json([
+                'success'=>true,
+                'message'=>'User Successfully Registerd',
+                'payload'=>[
+                    'user'=>$saveUser,
+                    'token'=>$token
+                ]
+            ]);
+        }
+        else{
+            return response()->json([
+                'success'=>false,
+                'message'=>'Unable To register User',
+                'payload'=>null
+            ],200);
+        }
+    }
+
+
+
+    public function mobileCheck(checkMobileRequest $request)
+    {
+        $checkUser=storeUser::where('phone',$request->phoneI)->first();
+        if(!$checkUser){
+            return response()->json([
+                'success'=>false,
+                'message'=>'Unable To find User',
+                'payload'=>null
+            ],200);
+        }
+        else{
+            return response()->json([
+                'success'=>true,
+                'message'=>'user registerd',
+                'payload'=>null
+            ],200);
+        }
+    }
+
+    public function mobileLogin(loginMobileRequest $request)
+    {
+        $token=Auth::guard('api')->attempt(['phone'=>$request->phoneI,'password'=>$request->passwordI]);
+        if($token){
+            $u=Auth::guard('api')->user();
+            $orders=storeOrder::where('user_id',$u->id)->get();
+            return response()->json([
+                'success'=>true,
+                'message'=>'User Successfully Logged-in',
+                'payload'=>[
+                    'user'=>$u,
+                    'orders'=>$orders,
+                    'token'=>$token
+                ]
+            ]);
+        }
+        else{
+            return response()->json([
+                'success'=>false,
+                'message'=>'Unable To login User',
+                'payload'=>null
+            ],200);
+        }
+    }
+
+
+    public function emailCheck(checkEmailRequest $request)
+    {
+        
+        $checkUser=storeUser::where('email',$request->emailI)->first();
+        if(!$checkUser){
+            return response()->json([
+                'success'=>false,
+                'message'=>'Unable To find User',
+                'payload'=>null
+            ],200);
+        }
+        else{
+            return response()->json([
+                'success'=>true,
+                'message'=>'user registerd',
+                'payload'=>null
+            ],200);
+        }
+    }
+
+
+    public function emailLogin(loginEmailRequest $request)
+    {
+        
+        $token=Auth::guard('api')->attempt(['email'=>$request->emailI,'password'=>$request->passwordI]);
+        if($token){
+            $u=Auth::guard('api')->user();
+            $orders=storeOrder::where('user_id',$u->id)->get();
+            return response()->json([
+                'success'=>true,
+                'message'=>'User Successfully Logged-in',
+                'payload'=>[
+                    'user'=>$u,
+                    'orders'=>$orders,
+                    'token'=>$token
+                ]
+            ]);
+        }
+        else{
+            return response()->json([
+                'success'=>false,
+                'message'=>'Unable To login User',
+                'payload'=>null
+            ],200);
+        }
+
+
+    }
+
+
 
     public function authenticateUserGoogleReq()
     {
@@ -149,7 +290,7 @@ class userController extends Controller
                     'success'=>false,
                     'message'=>'Unable To Register User',
                     'payload'=>null
-                ],400);
+                ],200);
             }
         }
     }

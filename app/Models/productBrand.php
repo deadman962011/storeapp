@@ -10,13 +10,16 @@ class productBrand extends Model
 {
     use HasFactory;
 
+    
+    public  $lang='en';
+    protected $appends=['strings','productsCount'];
+    protected $fillable=['brand_permalink'];
+    
+
     public function scopeActive($query)
     {
         return $query->where('brand_status',1);
     }
-
-    public  $lang='en';
-    protected $appends=['strings','productsCount'];
 
     public function getProductsCountAttribute(){
 
@@ -27,7 +30,7 @@ class productBrand extends Model
     public function getStringsAttribute()
     {
         $lang=app('request')->route('lang');
-        if($lang){
+        if(app('request')->routeIs('api.*') && $lang){
             $language=$lang;
         }
         else{

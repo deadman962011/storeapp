@@ -36,6 +36,7 @@
                                                     <th>Brand thumbnail</th>
                                                     <th>Brand name</th>
                                                     <th>Brand products count</th>
+                                                    <th>Languages</th>
                                                     <th>Edit</th>
                                                 </tr>
                                             </thead>
@@ -45,6 +46,7 @@
                                                         <td>#</td>
                                                         <td>{{$item->strings['brand_name']}}</td>
                                                         <td> 4</td>
+                                                        <td>  @foreach ($configs['language'] as $language) <a href="{{route('brand.edit.get',['brandId'=>$item->id,'lang'=>$language->config_key])}}">{{$language->config_key}}</a>    @endforeach  </td>
                                                         <td class="d-flex">
                                                             <div class="btn btn-warning mx-2">#</div>
                                                             <div class="btn btn-danger">#</div>

@@ -27,6 +27,29 @@ trait GeneralTrait {
     }
 
 
+    public function setTranslate($key,$value,$type,$lang,$itemId)
+    {
+        
+        $checkTrans=translationString::where('translation_lang',$lang)->where('translation_key',$key)->where('translation_parent_type',$type)->where('translation_parent_id',$itemId)->first();
+        if(!$checkTrans){
+            //save translation
+            $saveString=new translationString();
+            $saveString->translation_key=$key;
+            $saveString->translation_value=$value;
+            $saveString->translation_lang=$lang;
+            $saveString->translation_parent_type=$type;
+            $saveString->translation_parent_id=$itemId;
+            $saveString->save();
+        }
+        else{
+            //update translation
+            $checkTrans->update([
+                'translation_value'=>$value
+            ]);
+        }
+
+        return true;
+    }
 
 }
 

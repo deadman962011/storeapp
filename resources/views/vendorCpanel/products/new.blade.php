@@ -9,6 +9,7 @@
 @php
     $breadcrumb = ['Dashboard', 'Products', 'Add New Porduct'];
     $page = $breadcrumb[count($breadcrumb) - 1];
+    $update=false;
 @endphp
 @section('title')
     <title> {{ $page }} </title>

@@ -21,6 +21,7 @@ class propertyController extends Controller
     public function index()
     {
         
+
         //get parent properties
         $properties=productProperty::where('property_type','parent')->get();
         return view('vendorCpanel.properties.list',['properties'=>$properties]);

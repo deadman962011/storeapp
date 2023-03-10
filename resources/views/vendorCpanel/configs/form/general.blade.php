@@ -28,6 +28,7 @@
                         <option @if (!old('configTypeI')) selected="selected" @endif >Please select config type</option>
                         <option value="general" @if (old('configTypeI')==='general') selected @endif >General</option>
                         <option value="currency" @if (old('configTypeI')==='currency') selected @endif>Currencies</option>
+                        <option value="language" @if (old('configTypeI')==='language') selected @endif>Languages</option>
                     </select>
                     @error('configTypeI')
                         <span class="text-danger">{{ $message }}</span>

@@ -42,7 +42,7 @@ return [
         ],
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'users',
+            'provider' => 'storeUser',
         ],
         'storeAdmin'=>[
             'driver' => 'jwt',
@@ -72,9 +72,9 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'storeUser' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\storeUser::class,
         ],
         'vendors' => [
             'driver' => 'eloquent',

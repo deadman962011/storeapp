@@ -23,7 +23,7 @@ class cartController extends Controller
         //check cart
         $getCart=storeCart::where('cart_identifier',$id)->first();
         if(!$getCart){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 200);
         }
 
         return response()->json(['success'=>true,'payload'=>$getCart,'message'=>'Cart Successfully loaded'], 200);
@@ -37,11 +37,11 @@ class cartController extends Controller
         //check cart
         $getCart=storeCart::where('cart_identifier',$id)->first();
         if(!$getCart){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 200);
         }
         $checkItem=cartItem::where('cart_id',$getCart->id)->where('product_id',$request->productIdI)->first();
         if($checkItem){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Item Already in Cart'], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Item Already in Cart'], 200);
         }
         $saveCartItem=new cartItem();
         $saveCartItem->product_id=$request->productIdI;
@@ -56,11 +56,11 @@ class cartController extends Controller
         //check cart
         $getCart=storeCart::where('cart_identifier',$id)->first();
         if(!$getCart){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 200);
         }
         $checkItem=cartItem::where('cart_id',$getCart->id)->where('product_id',$request->productIdI)->first();
         if(!$checkItem){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to remove item from cart'], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to remove item from cart'], 200);
         }
         
         $checkItem->delete();
@@ -72,13 +72,13 @@ class cartController extends Controller
         //check cart
         $getCart=storeCart::where('cart_identifier',$id)->first();
         if(!$getCart){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to find Cart '], 200);
         }
         
         //update cartItem
         $checkItem=cartItem::where('cart_id',$getCart->id)->where('product_id',$request->productIdI)->first();
         if(!$checkItem){
-            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to increase item from cart'], 400);
+            return response()->json(['success'=>false,'payload'=>null,'message'=>'Unable to increase item from cart'], 200);
         }
         $checkItem->increment('quantity');
         // $qty=$checkItem->quantity+1;
