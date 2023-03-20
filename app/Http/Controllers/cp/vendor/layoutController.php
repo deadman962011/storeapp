@@ -49,7 +49,7 @@ class layoutController extends Controller
             return  redirect()->route('layout.index')->with('danger', 'Unable to find Layout  ');
         }
 
-        return view('vendorcpanel.layouts.show',compact('layout'));
+        return view('vendorCpanel.layouts.show',compact('layout'));
 
     }
 
