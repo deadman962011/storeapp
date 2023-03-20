@@ -9,6 +9,8 @@ use App\Traits\ProductTrait;
 
 class storeProduct extends Model
 {
+
+
     use HasFactory;
     use ProductTrait;
 
