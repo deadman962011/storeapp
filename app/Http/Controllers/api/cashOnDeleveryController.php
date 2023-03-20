@@ -5,9 +5,9 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\api\order\saveOrderRequest;
-use App\models\storeCart;
-use App\models\storePayment;
-use App\models\storeOrder;
+use App\Models\storeCart;
+use App\Models\storePayment;
+use App\Models\storeOrder;
 
 use Auth;
 

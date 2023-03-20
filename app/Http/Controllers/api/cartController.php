@@ -4,8 +4,8 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\models\storeCart;
-use App\models\cartItem;
+use App\Models\storeCart;
+use App\Models\cartItem;
 
 class cartController extends Controller
 {
