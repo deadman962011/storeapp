@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\cp\vendor\layout\saveLayoutRequest;
-use App\models\storeLayout;
+use App\Models\storeLayout;
 
 
 class layoutController extends Controller

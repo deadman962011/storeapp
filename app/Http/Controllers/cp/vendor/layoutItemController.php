@@ -4,9 +4,9 @@ namespace App\Http\Controllers\cp\vendor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\models\storeLayout;
+use App\Models\storeLayout;
 use App\Models\storeSlider;
-use App\models\layoutItem;
+use App\Models\layoutItem;
 use App\Http\Requests\cp\vendor\layoutItem\saveLayoutItemRequest;
 
 class layoutItemController extends Controller

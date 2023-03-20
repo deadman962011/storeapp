@@ -55,7 +55,7 @@
                             </a>
                         </li> --}}
                         @php
-                            $layouts=\App\models\storeLayout::all();
+                            $layouts=\App\Models\storeLayout::all();
                         @endphp
                         @foreach ($layouts as $layout)
                             <li class="nav-item">
