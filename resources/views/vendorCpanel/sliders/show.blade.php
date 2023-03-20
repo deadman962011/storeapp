@@ -34,7 +34,7 @@
                                                 <tr>
                                                     <th>Slide</th>
                                                     <th>Slide Action</th>
-                                                    {{-- <th>Languages</th> --}}
+                                                    <th>Languages</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -44,6 +44,7 @@
                                                         <tr>
                                                             <td>xxxx</td>
                                                             <td>Redirect to test tag </td>
+                                                            <td>  @foreach ($configs['language'] as $language) <a href="{{route('slide.edit.get',['id'=>$slider->id,'slideId'=>$item->id,'lang'=>$language->config_key])}}">{{$language->config_key}}</a>    @endforeach  </td>
                                                             <td>
                                                                 <div class="dropdown">
                                                                     <button class="btn btn-primary dropdown-toggle"

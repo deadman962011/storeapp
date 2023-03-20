@@ -10,6 +10,7 @@ use App\Http\Requests\cp\vendor\brand\saveBrandRequest;
 use App\Http\Requests\cp\vendor\brand\updateBrandRequest;
 
 use App\Models\productBrand;
+use App\Models\storeConfig;
 use App\Models\translationString;
 
 
@@ -49,7 +50,8 @@ class brandController extends Controller
                 'value'=>$request->brandDescI,
             ],
         ];
-        $this->saveTranslateMany($transArr,'brand',$saveBrand['id']);
+        $lang=storeConfig::where('config_key','defaultLanguage')->first();
+        $this->saveTranslateMany($transArr,'brand',$lang->config_value,$saveBrand['id']);
         return  redirect()->route('brand.index')->with('success', 'Brand Successfully Saved');
 
     }

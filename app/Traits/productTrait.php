@@ -30,6 +30,17 @@ trait ProductTrait {
         }
     }
 
+    public function setMeta($key,$value,$productId)
+    {
+        $getMeta=productMeta::where('meta_key',$key)->where('product_id',$productId)->first();
+        if(!$getMeta){
+            $this->saveMeta($key,$value,$productId);
+        }
+        else{
+            $getMeta->update(['meta_value'=>$value]);
+        }
+    }
+
     public function saveMetaMany($meta,$id)
     {
         

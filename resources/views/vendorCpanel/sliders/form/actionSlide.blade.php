@@ -14,11 +14,11 @@
                 <div class="form-group">
                     <label>Slide Action</label>
                     <select id="slide_action_type" name="slideActionI" class="form-select @error('slideActionI') is-invalid @enderror">
-                        <option selected="selected">Please select slide action</option>
-                        <option value="link">link</option>
-                        <option value="category">redirect to category</option>
+                        <option selected >Please select slide action</option>
+                        <option value="link" @if (old('slideActionI') === 'link') selected @endif >link</option>
+                        <option value="category" @if (old('slideActionI') === 'category') selected @endif>redirect to category</option>
                         {{-- <option value="tag">redirect to tag</option> --}}
-                        <option value="brand">redirect to brand</option>
+                        <option value="brand" @if (old('slideActionI') === 'brand') selected @endif>redirect to brand</option>
                     </select>
                     @error('slideActionI')
                         <span class="text-danger">{{ $message }}</span>
@@ -30,19 +30,9 @@
             <div id="slide_action_value_section" class="col-md-6 d-none">
                 <div class="form-group ">
                     <label>Slide Action value</label>
-                    <input id="action_value_text_input" type="text" class="form-control @error('slideActionValueI') is-invalid @enderror" name="slideActionValueI">
-                    <select id="action_value_select_input" class="form-control select2bs4 @error('slideActionValueI') is-invalid @enderror" name="slideActionValueI"
+                    <input id="action_value_text_input" @if (old('slideActionI')==='link') value="{{old('slideActionValueI')}}"  @endif type="text" class="form-control @error('slideActionValueI') is-invalid @enderror" name="slideActionValueI">
+                    <select id="action_value_select_input" class="form-control select2 @error('slideActionValueI') is-invalid @enderror" name="slideActionValueI"
                         style="width: 100%;">
-                        
-                        {{-- <option selected="selected">Please select parent category</option> --}}
-                        {{-- @foreach ($categories as $item)
-                            <option value="{{ $item->id }}">{{ $item->strings['category_name'] }}</option>
-                        @endforeach --}}
-                        {{-- <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option> --}}
                     </select>
                     @error('slideActionValueI')
                         <span class="text-danger">{{ $message }}</span>

@@ -27,7 +27,7 @@ class cashOnDeleveryController extends Controller
         $savePayment=new storePayment();
         $savePayment->payment_method=$request->paymentMethodI;
         $savePayment->payment_token=bin2hex(random_bytes(8));
-        $savePayment->payment_status=1;
+        $savePayment->payment_status=0;
         $savePayment->payment_amount=$request->amountI;
         $savePayment->save();
 
@@ -35,7 +35,7 @@ class cashOnDeleveryController extends Controller
         //save order
         $saveOrder=new storeOrder();
         $saveOrder->order_identifier=bin2hex(random_bytes(8));
-        $saveOrder->order_status=1;
+        $saveOrder->order_status=0;
         $saveOrder->cart_id=$getCart->id;
         $saveOrder->user_id=$user->id;
         $saveOrder->payment_id=$savePayment->id;

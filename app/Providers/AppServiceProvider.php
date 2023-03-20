@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configs=\App\Models\storeConfig::all()->groupBy('config_type');
-        view()->share('configs',$configs);
+        if(Schema::hasTable('store_configs')){
+            $configs=\App\Models\storeConfig::all()->groupBy('config_type');
+            view()->share('configs',$configs);
+
+        }
     }
 }

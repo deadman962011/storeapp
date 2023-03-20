@@ -30,7 +30,7 @@ class userController extends Controller
     public function getUser(Request $request)
     {
         $u=Auth::guard('api')->user();
-        $orders=storeOrder::where('user_id',$u->id)->get();
+        $orders=storeOrder::where('user_id',$u->id)->with('payment:id,payment_method,payment_status')->without('cart')->select('payment_id','order_status','order_identifier','created_at')->get();
         return response()->json([
             'success'=>true,
             'message'=>'User Successfully Loaded',
@@ -148,7 +148,7 @@ class userController extends Controller
         $token=Auth::guard('api')->attempt(['phone'=>$request->phoneI,'password'=>$request->passwordI]);
         if($token){
             $u=Auth::guard('api')->user();
-            $orders=storeOrder::where('user_id',$u->id)->get();
+            $orders=storeOrder::where('user_id',$u->id)->with('payment:id,payment_method,payment_status')->without('cart')->select('payment_id','order_status','order_identifier','created_at')->get();
             return response()->json([
                 'success'=>true,
                 'message'=>'User Successfully Logged-in',
@@ -196,7 +196,7 @@ class userController extends Controller
         $token=Auth::guard('api')->attempt(['email'=>$request->emailI,'password'=>$request->passwordI]);
         if($token){
             $u=Auth::guard('api')->user();
-            $orders=storeOrder::where('user_id',$u->id)->get();
+            $orders=storeOrder::where('user_id',$u->id)->with('payment:id,payment_method,payment_status')->without('cart')->select('payment_id','order_status','order_identifier','created_at')->get();
             return response()->json([
                 'success'=>true,
                 'message'=>'User Successfully Logged-in',

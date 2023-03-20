@@ -11,6 +11,7 @@ use App\Http\Requests\cp\vendor\property\savePropertyRequest;
 
 use App\Models\productProperty;
 use App\Models\translationString;
+use App\Models\storeConfig;
 
 class propertyController extends Controller
 {
@@ -65,7 +66,8 @@ class propertyController extends Controller
                 'value'=>$request->propertyDescI,
             ],
         ];
-        $this->saveTranslateMany($transArr,'property',$saveProperty['id']);
+        $lang=storeConfig::where('config_key','defaultLanguage')->first();
+        $this->saveTranslateMany($transArr,'property',$lang->config_value,$saveProperty['id']);
 
 
         return  redirect()->route('property.index')->with('success', 'Property Successfully Saved');

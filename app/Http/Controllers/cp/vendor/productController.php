@@ -61,7 +61,7 @@ class productController extends Controller
         //product_category	product_brand	product_vendor	created_at	updated_at
         $saveproduct=new storeProduct();
         $saveproduct->product_permalink=$request->productPermalinkI;
-        $saveproduct->product_status=1;
+        $saveproduct->product_status=0;
         $saveproduct->product_type=$request->productTypeI;
         $saveproduct->product_category=$request->productCatI;
         $saveproduct->product_brand=$request->productBrandI;
@@ -85,7 +85,8 @@ class productController extends Controller
         ];
 
         //save translations
-        $this->saveTranslateMany($transArr,'product',$saveproduct['id']);
+        $lang=storeConfig::where('config_key','defaultLanguage')->first();
+        $this->saveTranslateMany($transArr,'product',$lang->config_value,$saveproduct['id']);
 
 
         //check type of the product 
@@ -250,7 +251,8 @@ class productController extends Controller
             $flash['productQtyI']=$getProduct->quantity;
             $flash['productInStockI']=$getProduct->inStock;
             $flash['productSoldindividuallyI']=$getProduct->soldindividually;
-            $flash['productPriceI']=$getProduct->price;
+            $flash['productPriceI']=$getProduct->regPrice; 
+            $flash['productRegPrice']=$getProduct->price;
             $flash['productCatI']=$getProduct->category->id;
             $flash['productBrandI']=$getProduct->brand->id;
             $flash['productShippingWeightI']=$getProduct->shpinigWeight;
@@ -258,14 +260,16 @@ class productController extends Controller
             $flash['productShippingWidthI']=$getProduct->shipingWidth;
             $flash['productShippingHeightI']=$getProduct->shipingHeight;
             if($getProduct->hasSale){
-                $flash['productSalePriceI']=$getProduct->product_sale_price;
+                $flash['productRegSalePrice']=$getProduct->product_sale_price; 
+                $flash['productSalePriceI']=$getProduct->regSalePrice;
             }
             if($productType==='variable'){
                 $flash['productPropsI']=$getProduct->properties->pluck('id');
             }
             
             session()->flashInput($flash);
-            return view('vendorCpanel.products.update',compact(['categories','brands','properties']));
+            $product=$getProduct;
+            return view('vendorCpanel.products.update',compact(['categories','brands','properties','product']));
         }
 
     }
@@ -280,7 +284,7 @@ class productController extends Controller
             return  redirect()->route('product.index')->with('danger', 'Unable to find product');
         }
         else{
-            
+            // dd($request->all());
             //upadte product
             if($request->productNameI){
                 $this->setTranslate('product_name',$request->productNameI,'product',$lang,$getProduct->id);
@@ -291,19 +295,52 @@ class productController extends Controller
             if($request->productDescI){
                 $this->setTranslate('product_desc',$request->productDescI,'product',$lang,$getProduct->id);
             }
+            if($request->productPriceI){
+                $this->setMeta('product_price',$request->productPriceI,$getProduct->id);
+            } 
+            if($request->productSalePriceI){
+                $this->setMeta('product_price',$request->productSalePriceI,$getProduct->id);
+            }
+            if($request->productSkuI){
+                $this->setMeta('product_sku',$request->productSkuI,$getProduct->id);
+            }
+            if($request->productQtyI){
+                $this->setMeta('product_qty',$request->productQtyI,$getProduct->id);
+            }
+            if($request->productInStockI){
+                $this->setMeta('product_stock_status',$request->productInStockI,$getProduct->id);
+            }
+            if($request->productSoldindividuallyI){
+                $this->setMeta('product_sold_individually',$request->productSoldindividuallyI,$getProduct->id);
+            }
+            if($request->productShippingClassI){
+                $this->setMeta('product_shipping_class',$request->productShippingClassI,$getProduct->id);
+            }
+            if($request->productShippingWeightI){
+                $this->setMeta('product_shipping_weight',$request->productShippingWeightI,$getProduct->id);
+            }
+            if($request->productShippingLengthI){
+                $this->setMeta('product_shipping_length',$request->productShippingLengthI,$getProduct->id);
+            }
+            if($request->productShippingWidthI){
+                $this->setMeta('product_shipping_width',$request->productShippingWidthI,$getProduct->id);
+            }
+            if($request->productShippingHeightI){
+                $this->setMeta('product_shipping_height',$request->productShippingHeightI,$getProduct->id);
+            }
 
             //update product
             $getProduct->update([
-                'product_permalink'=>$request->productPermalinkI,
                 'product_category'=>$request->productCatI,
                 'product_brand'=>$request->productBrandI,
             ]);
 
-            return redirect()->route('product.index')->with('success', 'Product Successfully Updated');
-
+            if($getProduct->product_type==='simple' || $getProduct->product_type==='variable' ){
+                return redirect()->route('product.index')->with('success', 'Product Successfully Updated');
+            }
+            elseif($getProduct->product_type==='variation'){
+                return redirect()->route('product.edit.get',['productId'=>$getProduct->parent_id,'lang'=>$lang])->with('success', 'Product Successfully Updated');
+            }
         }
-
-
-
     }
 }

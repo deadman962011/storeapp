@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('config_value');
             $table->string('config_sub_value');
             $table->text('config_desc');
+            $table->string('config_input');
             $table->timestamps();
         });
     }

@@ -9,6 +9,8 @@ use App\Http\Controllers\api\cashOnDeleveryController;
 
 Route::get('/',[orderController::class,'all']);
 
+Route::get('/{id}',[orderController::class,'get']);
+
 Route::post('/paypal/request',[paypalController::class,'request']);
 
 Route::get('/paypal/callback',[paypalController::class,'callback']);

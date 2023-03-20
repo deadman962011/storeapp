@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class productMeta extends Model
 {
     use HasFactory;
+
+    protected $fillable=['meta_value'];
+
 }

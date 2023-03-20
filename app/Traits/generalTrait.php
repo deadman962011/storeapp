@@ -7,14 +7,14 @@ use App\Models\translationString;
 trait GeneralTrait { 
 
 
-    public function saveTranslateMany($trans,$type,$id)
+    public function saveTranslateMany($trans,$type,$lang,$id)
     {
         $transArr=[];
 
         foreach ($trans as $translation) {
             $transItem['translation_key']=$translation['key'];
             $transItem['translation_value']=$translation['value'];
-            $transItem['translation_lang']='en';
+            $transItem['translation_lang']=$lang;
             $transItem['translation_parent_type']=$type;
             $transItem['translation_parent_id']=$id;
             array_push($transArr,$transItem);

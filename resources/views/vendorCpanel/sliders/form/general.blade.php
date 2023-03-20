@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Slider name</label>
-                    <input type="text" name="sliderNameI"  class="form-control @error('sliderNameI') is-invalid @enderror">
+                    <input type="text" name="sliderNameI" value="{{old('sliderNameI')}}"  class="form-control @error('sliderNameI') is-invalid @enderror">
                     @error('sliderNameI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
@@ -38,7 +38,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Slider description</label>
-                    <textarea name="sliderDescI" id="" cols="30" rows="6" class="form-control @error('sliderDescI') is-invalid @enderror"></textarea>
+                    <textarea name="sliderDescI" id="" cols="30" rows="6" class="form-control @error('sliderDescI') is-invalid @enderror">{{old('sliderDescI')}}</textarea>
                     @error('sliderDescI')
                         <span class="text-danger">{{$message}}</span>
                     @enderror

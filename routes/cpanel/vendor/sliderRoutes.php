@@ -15,6 +15,9 @@ Route::get('/{id}/add-slide',[sliderController::class,'slideNew'])->name('slide.
 
 Route::post('/{id}/add-slide',[sliderController::class,'slideStore'])->name('slide.new.post');
 
+Route::get('/{id}/{slideId}/{lang}/edit',[sliderController::class,'slideEdit'])->name('slide.edit.get');
+
+Route::post('/{id}/{slideId}/{lang}/edit',[sliderController::class,'slideUpdate'])->name('slide.edit.post');
 
 
 ?>

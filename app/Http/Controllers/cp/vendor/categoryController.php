@@ -59,7 +59,10 @@ class categoryController extends Controller
                 'value'=>$request->categoryDescI,
             ],
         ];
-        $this->saveTranslateMany($transArr,'category',$saveCategory['id']);
+        
+        //get default language 
+        $lang=storeConfig::where('config_key','defaultLanguage')->first();
+        $this->saveTranslateMany($transArr,'category',$lang->config_value,$saveCategory['id']);
 
         return  redirect()->route('category.index')->with('success', 'Category Successfully Saved');
 

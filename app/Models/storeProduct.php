@@ -18,6 +18,8 @@ class storeProduct extends Model
         'strings',
         'properties',
         'price',
+        'regPrice',
+        'regSalePrice',
         'sku',
         'vendor',
         'quantity',
@@ -165,9 +167,16 @@ class storeProduct extends Model
             $language=$this->lang;
         }
         
+        if($this->product_type==='variation'){
+            $prodId=$this->parent_id;
+        }
+        else{
+            $prodId=$this->id;
+        }
+
         $getTranslations=translationString::where('translation_lang',$language)
             ->where('translation_parent_type','product')
-            ->where('translation_parent_id',$this->id)
+            ->where('translation_parent_id',$prodId)
             ->get();
         $tranlations=[];
         foreach ($getTranslations as $translation) {
@@ -189,18 +198,22 @@ class storeProduct extends Model
     {
         //get curr
         $currency=storeConfig::currency()->where('config_key',$this->curr)->first();
-
         if($this->product_type==='simple' || $this->product_type==='variation'){
             //get price meta 
             $regularPrice=$this->getMeta('product_price',$this->id)->first();
-            $discountedPrice=$this->getMeta('product_sale_price',$this->id)->first();
-            if($discountedPrice){
-                $price=$discountedPrice;
+            if($regularPrice){
+                $discountedPrice=$this->getMeta('product_sale_price',$this->id)->first();
+                if($discountedPrice){
+                    $price=$discountedPrice;
+                }
+                else{
+                    $price=$regularPrice;
+                }
+                return $currency->config_value*$price->meta_value;
             }
             else{
-                $price=$regularPrice;
+                return 0;
             }
-            return $currency->config_value*$price->meta_value;
         }
         elseif($this->product_type==='variable') {
 
@@ -211,11 +224,37 @@ class storeProduct extends Model
                                     ->where('parent_id',$this->id)
                                     ->pluck('id')
             );
-            return $currency->config_value*$priceArr->max('meta_value').' - '.$currency->config_value*$priceArr->min('meta_value');
+            return $currency->config_value*$priceArr->min('meta_value').' - '.$currency->config_value*$priceArr->max('meta_value');
 
         }
 
     }
+
+    public function getRegPriceAttribute()
+    {
+        
+        $regularPrice=$this->getMeta('product_price',$this->id)->first();
+        if($regularPrice){ 
+            return $regularPrice->meta_value;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public function getRegSalePriceAttribute()
+    {
+        
+        $regularSalePrice=$this->getMeta('product_sale_price',$this->id)->first();
+        if($regularSalePrice){ 
+            return $regularSalePrice->meta_value;
+        }
+        else{
+            return 0;
+        }
+    }
+
+
 
     public function getSkuAttribute()
     {
@@ -224,6 +263,7 @@ class storeProduct extends Model
         if($meta){
             return $meta->meta_value;
         }
+        
     }
 
 }

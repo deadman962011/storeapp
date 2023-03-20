@@ -40,6 +40,11 @@ class productCategory extends Model
 
     }
 
+    public function getProductsAttribute()
+    {
+        return storeProduct::parent()->active()->where('product_category',$this->id)->paginate(12);
+    }
+
 
     
     public function getStringsAttribute()
